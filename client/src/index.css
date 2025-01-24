@@ -1,0 +1,19 @@
+body{
+    background-color:  #fff ;
+}
+
+/* Apply Quicksand globally */
+/* Apply Circular Std to body */
+html, body {
+    font-family: 'Circular Std', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* Apply Circular Std to headings */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Circular Std', sans-serif;
+  }
+  
+  
