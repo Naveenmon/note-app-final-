@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom"; // useParams to get note ID from URL
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from "axios";
@@ -104,8 +104,8 @@ const CloseButton = styled.button`
 
 const ColorPickerWrapper = styled.div`
   display: flex;
-  justify-content: center; /* Centers the picker horizontally */
-  align-items: center; /* Centers the picker vertically */
+  justify-content: center; 
+  align-items: center; 
   
   .sketch-picker {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -129,7 +129,8 @@ const ColorPickerWrapper = styled.div`
   }
 `;
 
-const NoteForm = () => {
+const Update = () => {
+  const { id } = useParams(); // Get note ID from URL params
   const [note, setNote] = useState({
     title: "",
     content: "",
@@ -139,6 +140,38 @@ const NoteForm = () => {
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    // Fetch the existing note details when the component loads
+    const fetchNote = async () => {
+    //   try {
+    //     const response = await axios.get(`http://localhost:5000/api/notes/${id}`);
+    //     if (response.data.success) {
+    //       setNote({
+    //         // title: response.data.note.title,
+    //         // content: response.data.note.content,
+    //         // tags: response.data.note.tag,
+    //         // color: response.data.note.color,
+    //         response.data
+    //       });
+    //     } else {
+    //       toast.error("Note not found.");
+          
+    //     }
+    //   } catch (error) {
+    //     console.log("Error in Update Page")
+    //   }
+        try {
+            const response = await axios.get(`http://localhost:5000/api/notes/${id}`);
+            setNote(response.data);
+        } catch (err) {
+            setError("Failed to fetch the note. Please try again later.");
+        }
+        };
+    
+    fetchNote();
+  }, [id, navigate]);
+  console.log(note)
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setNote((prevNote) => ({
@@ -147,17 +180,10 @@ const NoteForm = () => {
     }));
   };
 
-  const handleColorChange = (color) => {
-    setNote((prevNote) => ({
-      ...prevNote,
-      color: color.hex, // Update the color state with the selected color's hex code
-    }));
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/api/notes/write', {
+      const response = await axios.put(`http://localhost:5000/api/notes/edit/${id}`, {
         title: note.title,
         content: note.content,
         tag: note.tags,
@@ -174,7 +200,6 @@ const NoteForm = () => {
           draggable: true,
           progress: undefined,
           onClose: () => {
-            setNote({ title: "", content: "", tags: "", color: "" });
             navigate("/"); 
           }
         });
@@ -193,16 +218,7 @@ const NoteForm = () => {
         });
       }
     } catch (error) {
-      console.error("Error:", error);
-      toast.error("An error occurred. Please try again.", {
-        position: 'top-right',
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      toast.error("An error occurred. Please try again.");
     }
   };
 
@@ -252,18 +268,8 @@ const NoteForm = () => {
           />
         </Section>
 
-        <Section>
-          <label htmlFor="color">Pick a Color</label>
-          <ColorPickerWrapper>
-            <SketchPicker
-              color={note.color} // Pass the current color value
-              onChange={handleColorChange} // Update the color on change
-            />
-          </ColorPickerWrapper>
-        </Section>
-
         <Button onClick={handleSubmit} disabled={!note.title || !note.content}>
-          Create Note
+          Update Note
         </Button>
       </FormContainer>
       <ToastContainer />
@@ -271,4 +277,4 @@ const NoteForm = () => {
   );
 };
 
-export default NoteForm;
+export default Update;

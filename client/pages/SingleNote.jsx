@@ -165,6 +165,11 @@ const SingleNote = () => {
     }
   };
 
+  const handleEdit = () => {
+    console.log("Navigating to update page with ID:", id);  // Debugging the ID
+    navigate(`/notes/edit/${id}`);
+  };
+
   if (error) {
     return <ErrorMessage>{error}</ErrorMessage>;
   }
@@ -186,7 +191,7 @@ const SingleNote = () => {
       </NoteTags>
       <NoteDate><strong>Date Created: {" "}</strong> {formattedDate}</NoteDate>
       <ActionButtons>
-        <IconButton>
+        <IconButton onClick={handleEdit} primary>
           <FaEdit />
         </IconButton>
         <IconButton onClick={handleDelete}>

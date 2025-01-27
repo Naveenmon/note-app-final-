@@ -49,8 +49,28 @@ const writeNote = async (req, res) => {
 }
 
 const updateNote = async (req, res) => {
-    res. status(200).json({ error: false, message: "Test updateNote"})
+    const { title, content, tag, color } = req.body;
+    const noteId = req.params.id;
+    try {
+        const updated = await Note.findByIdAndUpdate(noteId, {
+            title,
+            content,
+            tag,
+            color,
+        }, { new: true });
+
+        if (!updated) {
+            return res.status(404).json({ success: false, message: 'Note not found' });
+        }
+
+        res.json({ success: true, message: 'Note updated successfully', note: updated });
+
+    } catch (error) {
+        console.log("Error in updateNote API", error);
+        res.status(500).json({ success: false, message: 'Failed to update note' });
+    }
 }
+
 
 const singleNote = async (req, res) => {
     const noteId = req.params.id;

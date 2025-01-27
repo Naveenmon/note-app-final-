@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import logo from '../src/assets/logo.png';
+import { Link } from 'react-router-dom';
 
 // Styled components for Navbar, Logo, and Search Input
 const NavbarContainer = styled.nav`
@@ -63,9 +64,9 @@ const Navbar = ({ searchTerm, setSearchTerm }) => {
   return (
     <NavbarContainer>
       <Logo>
-        <LogoImage src={logo} width={40} height={40} />
-        <span>Note App</span> {/* You can replace this with your app name */}
-      </Logo>
+          <LogoImage src={logo} width={40} height={40} />
+          <span style={{ fontSize: '24px', fontWeight: 'bold' }}>Note App</span>
+        </Logo>
       <SearchGroup>
         <SearchIcon className="icon" aria-hidden="true" viewBox="0 0 24 24">
           <g>

@@ -7,6 +7,7 @@ import SingleNote from '../pages/SingleNote'
 import Write from '../pages/Write'
 import PrivateRoute from '../components/PrivateRoute'
 import Register from '../pages/Register'
+import Update from '../pages/Update'
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
               <Route path='/notes' element={<Notes/>}/>
               <Route path='/notes/:id' element={<SingleNote/>}/>
               <Route path='/write' element={<Write/>}/>
+              <Route path='/notes/edit/:id' element={<Update />} />
           </Route>
         </Routes>
       </Router>

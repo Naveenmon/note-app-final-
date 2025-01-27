@@ -9,19 +9,18 @@ const register = async (req, res) => {
 
     try{
         if(!name) {
-            res.status(400).json({ message:"Name required"})
+            res.status(400).json({ success:false, message:"Name required"})
         }
         if(!email) {
-            res.status(400).json({ message:"Email required"})
+            return res.status(400).json({ success:false, message:"Email required"})
         }
         if(!password) {
-            res.status(400).json({ message:"Password required"})
+            return res.status(400).json({ success: false, message:"Password required"})
         }
         const user = await User.findOne({ email });
             console.log(user, 'user')
         if(user){
-            res.status(400).json({ message: "User already Exists"})
-            return;
+            return res.status(400).json({ success: false, message: "User already Exists"})
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -33,12 +32,12 @@ const register = async (req, res) => {
         })
         const savedUser = await newUser.save();
 
-        res.status(200).json({error: false, message:"Registered successfuly", user: {id: savedUser._id,
+        return res.status(200).json({ success: true, message:"Registered successfuly", user: {id: savedUser._id,
             name: savedUser.name,
             email:savedUser.email}})
     } catch(error) {
         console.log("Error in register")
-        res.status(400).json({error: `${error}`})
+        return res.status(400).json({success: false, message: "Internal Server Error"})
     }
 }
 
@@ -50,22 +49,20 @@ const login = async (req, res) => {
         const user = await User.findOne({ email })
 
         if(!user){
-            return res.status(401).json({ message: "User Not Found"})
+            return res.status(401).json({ success: false, message: "User Not Found"})
         }
 
         const isPasswordValid = await bcrypt.compare(password, user.password)
 
         if(!isPasswordValid){
-            return res.status(401).json({ message: 'Invalid password'})
+            return res.status(401).json({ success: false, message: 'Invalid password'})
         }
 
         const secret = process.env.MY_SECRET
 
         const token = jwt.sign({ name: user.name, email: user.email}, secret, { expiresIn: '7d'})
 
-        res.json({ token })
-
-
+        res.json({ success: true, message:"Logged In Successfully", token })
 
     } catch(error) {
         console.log(error)   

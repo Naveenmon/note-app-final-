@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import logo from '../src/assets/logo.png'
+import { ToastContainer, toast } from 'react-toastify';
 
 const RegisterContainer = styled.div`
   display: flex;
@@ -92,10 +93,35 @@ const Register = () => {
                 email: email, 
                 password: password 
             });
-
-            navigate("/login");
+            if (res.data.success) {
+              toast.success(res.data.message, {
+                position: 'top-right',
+                autoClose: 500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                onClose: () => {
+                  navigate("/login"); 
+                }
+              });
+            } else {
+              toast.error(res.data.message || 'Something went wrong!', {
+                position: 'top-right',
+                autoClose: 500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                onClose: () => {
+                  navigate("/register"); 
+                }
+              });
+            }
         } catch(error) {
-            const errorData = await error.response.data;
+            const errorData = await error.res.data;
             setErrorMessage(errorData.message);
         }
     };
@@ -137,6 +163,7 @@ const Register = () => {
                     </div>
                 </RegisterForm>
             </RegisterCard>
+            <ToastContainer />
         </RegisterContainer>
     );
 };

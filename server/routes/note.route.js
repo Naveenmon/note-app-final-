@@ -5,7 +5,7 @@ const noteRoute = express.Router()
 
 noteRoute.get("/", getAllNotes)
 noteRoute.post("/write", writeNote)
-noteRoute.put("/:id", updateNote)
+noteRoute.put("/edit/:id", updateNote)
 noteRoute.get("/:id", singleNote)
 noteRoute.delete("/:id", deleteNote)
 

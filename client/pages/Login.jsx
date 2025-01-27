@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '../src/assets/logo.png'
+import { ToastContainer, toast } from 'react-toastify';
 
 const LoginContainer = styled.div`
   display: flex;
@@ -93,8 +94,33 @@ const Login = () => {
       
       const { token } = response.data;
       localStorage.setItem('token', token);
-      
-      navigate('/');
+      if (response.data.success) {
+        toast.success(response.data.message, {
+          position: 'top-right',
+          autoClose: 500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          onClose: () => {
+            navigate("/"); 
+          }
+        });
+      } else {
+        toast.error(response.data.message || 'Something went wrong!', {
+          position: 'top-right',
+          autoClose: 500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          onClose: () => {
+            navigate("/login"); 
+          }
+        });
+      }
     } catch (err) {
       console.error('Error during login:', err);
       setError('Invalid email or password');
@@ -129,6 +155,7 @@ const Login = () => {
           </div>
         </LoginForm>
       </LoginCard>
+      <ToastContainer />
     </LoginContainer>
   );
 };

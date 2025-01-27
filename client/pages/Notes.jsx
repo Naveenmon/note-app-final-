@@ -18,7 +18,7 @@ const AppContainer = styled.div`
 const NoteCard = styled.div`
   background-color: ${props => props.color};
   border-radius: 16px;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 20px 30px;
   padding: 32px;
   cursor: pointer;
   transition: transform 0.2s ease-in-out;
