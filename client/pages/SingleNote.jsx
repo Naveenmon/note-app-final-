@@ -136,7 +136,7 @@ const SingleNote = () => {
       if (response.data.success) {
         toast.success(response.data.message, {
           position: 'top-right',
-          autoClose: 1000, 
+          autoClose: 500, 
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
@@ -149,7 +149,7 @@ const SingleNote = () => {
       } else {
         toast.error(response.data.message || 'Something went wrong!', {
           position: 'top-right',
-          autoClose: 1000,
+          autoClose: 500,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,

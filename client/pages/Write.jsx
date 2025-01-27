@@ -167,7 +167,7 @@ const NoteForm = () => {
       if (response.data.success) {
         toast.success(response.data.message, {
           position: 'top-right',
-          autoClose: 1000,
+          autoClose: 500,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
@@ -181,7 +181,7 @@ const NoteForm = () => {
       } else {
         toast.error(response.data.message || 'Something went wrong!', {
           position: 'top-right',
-          autoClose: 1000,
+          autoClose: 500,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
@@ -196,7 +196,7 @@ const NoteForm = () => {
       console.error("Error:", error);
       toast.error("An error occurred. Please try again.", {
         position: 'top-right',
-        autoClose: 1000,
+        autoClose: 500,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
